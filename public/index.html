@@ -1,39 +1,34 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>GainPi</title>
-  <script src="https://sdk.minepi.com/pi-sdk.js"></script>
-</head>
-<body>
-  <h1>Welcome to GainPi</h1>
-  <p id="status">Checking Pi SDK...</p>
-  <button id="signin">Login with Pi</button>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const signInButton = document.getElementById("signin");
+    const status = document.getElementById("status");
 
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      const signInButton = document.getElementById("signin");
-      const status = document.getElementById("status");
+    if (!window.Pi) {
+      status.textContent = "❌ Pi SDK not available. Open this in the Pi Browser.";
+      return;
+    }
 
-      if (!window.Pi) {
-        status.textContent = "❌ Pi SDK not available. Open this in the Pi Browser.";
-        return;
-      }
+    status.textContent = "✅ Pi SDK detected. Initializing...";
 
-      status.textContent = "✅ Pi SDK detected. Ready to authenticate.";
-
-      signInButton.addEventListener("click", async () => {
-        try {
-          const scopes = ['username'];
-          const auth = await window.Pi.authenticate(scopes, function (payment) {
-            console.log("Incomplete payment found:", payment);
-          });
-          alert("Logged in as: " + auth.user.username);
-        } catch (err) {
-          console.error("Login failed:", err);
-          alert("Login failed: " + (err.message || "Unknown error"));
-        }
-      });
+    // ✅ Initialize the Pi SDK
+    window.Pi.init({
+      version: "2.0",
+      sandbox: false // set to true only for testing
     });
-  </script>
-</body>
-</html>
+
+    status.textContent = "✅ Pi SDK initialized. Ready to authenticate.";
+
+    signInButton.addEventListener("click", async () => {
+      try {
+        const scopes = ['username'];
+        const auth = await window.Pi.authenticate(scopes, function (payment) {
+          console.log("Incomplete payment found:", payment);
+        });
+        alert("Logged in as: " + auth.user.username);
+      } catch (err) {
+        console.error("Login failed:", err);
+        alert("Login failed: " + (err.message || "Unknown error"));
+      }
+    });
+  });
+</script>
