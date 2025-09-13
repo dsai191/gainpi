@@ -1,34 +1,62 @@
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const signInButton = document.getElementById("signin");
-    const status = document.getElementById("status");
-
-    if (!window.Pi) {
-      status.textContent = "❌ Pi SDK not available. Open this in the Pi Browser.";
-      return;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>GainPi</title>
+  <script src="https://sdk.minepi.com/pi-sdk.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding-top: 50px;
     }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    #status {
+      margin-bottom: 20px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>Welcome to GainPi</h1>
+  <p id="status">Checking Pi SDK...</p>
+  <button id="signin">Login with Pi</button>
 
-    status.textContent = "✅ Pi SDK detected. Initializing...";
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const signInButton = document.getElementById("signin");
+      const status = document.getElementById("status");
 
-    // ✅ Initialize the Pi SDK
-    window.Pi.init({
-      version: "2.0",
-      sandbox: false // set to true only for testing
-    });
-
-    status.textContent = "✅ Pi SDK initialized. Ready to authenticate.";
-
-    signInButton.addEventListener("click", async () => {
-      try {
-        const scopes = ['username'];
-        const auth = await window.Pi.authenticate(scopes, function (payment) {
-          console.log("Incomplete payment found:", payment);
-        });
-        alert("Logged in as: " + auth.user.username);
-      } catch (err) {
-        console.error("Login failed:", err);
-        alert("Login failed: " + (err.message || "Unknown error"));
+      if (!window.Pi) {
+        status.textContent = "❌ Pi SDK not available. Open this in the Pi Browser.";
+        return;
       }
+
+      // ✅ Initialize the Pi SDK
+      window.Pi.init({
+        version: "2.0",
+        sandbox: false
+      });
+
+      status.textContent = "✅ Pi SDK initialized. Ready to authenticate.";
+
+      signInButton.addEventListener("click", async () => {
+        try {
+          const scopes = ['username'];
+          const auth = await window.Pi.authenticate(scopes, function (payment) {
+            console.log("Incomplete payment found:", payment);
+          });
+          alert("Logged in as: " + auth.user.username);
+        } catch (err) {
+          console.error("Login failed:", err);
+          alert("Login failed: " + (err.message || "Unknown error"));
+        }
+      });
     });
-  });
-</script>
+  </script>
+</body>
+</html>
