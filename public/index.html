@@ -2,23 +2,32 @@
 <html>
 <head>
   <title>GainPi</title>
-  <!-- ✅ Include Pi SDK -->
   <script src="https://sdk.minepi.com/pi-sdk.js"></script>
 </head>
 <body>
   <h1>Welcome to GainPi</h1>
-  <button onclick="loginWithPi()">Login with Pi</button>
+  <button id="signin">Login with Pi</button>
 
   <script>
-    function loginWithPi() {
-      if (window.Pi) {
-        window.Pi.authenticate(['username'], function(auth) {
-          alert("Logged in as: " + auth.user.username);
-        });
-      } else {
+    document.getElementById("signin").addEventListener("click", async () => {
+      console.log("Button clicked");
+
+      if (!window.Pi) {
         alert("Pi SDK not available. Please open this in the Pi Browser.");
+        return;
       }
-    }
+
+      try {
+        const scopes = ['username'];
+        const auth = await window.Pi.authenticate(scopes, function (payment) {
+          console.log("Incomplete payment found:", payment);
+        });
+        alert("Logged in as: " + auth.user.username);
+      } catch (err) {
+        console.error("Login failed:", err);
+        alert("Login failed. Please try again.");
+      }
+    });
   </script>
 </body>
 </html>
