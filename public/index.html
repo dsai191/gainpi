@@ -2,6 +2,8 @@
 <html>
 <head>
   <title>GainPi</title>
+  <!-- ✅ Include Pi SDK -->
+  <script src="https://sdk.minepi.com/pi-sdk.js"></script>
 </head>
 <body>
   <h1>Welcome to GainPi</h1>
@@ -11,7 +13,7 @@
     function loginWithPi() {
       if (window.Pi) {
         window.Pi.authenticate(['username'], function(auth) {
-          alert("Logged in as: " + auth.username);
+          alert("Logged in as: " + auth.user.username);
         });
       } else {
         alert("Pi SDK not available. Please open this in the Pi Browser.");
