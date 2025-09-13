@@ -2,6 +2,7 @@
 <html>
 <head>
   <title>GainPi</title>
+  <!-- ✅ Load Pi SDK -->
   <script src="https://sdk.minepi.com/pi-sdk.js"></script>
 </head>
 <body>
@@ -9,24 +10,28 @@
   <button id="signin">Login with Pi</button>
 
   <script>
-    document.getElementById("signin").addEventListener("click", async () => {
-      console.log("Button clicked");
+    document.addEventListener("DOMContentLoaded", function () {
+      const signInButton = document.getElementById("signin");
 
-      if (!window.Pi) {
-        alert("Pi SDK not available. Please open this in the Pi Browser.");
-        return;
-      }
+      signInButton.addEventListener("click", async () => {
+        console.log("Login button clicked");
 
-      try {
-        const scopes = ['username'];
-        const auth = await window.Pi.authenticate(scopes, function (payment) {
-          console.log("Incomplete payment found:", payment);
-        });
-        alert("Logged in as: " + auth.user.username);
-      } catch (err) {
-        console.error("Login failed:", err);
-        alert("Login failed. Please try again.");
-      }
+        if (!window.Pi) {
+          alert("Pi SDK not available. Please open this in the Pi Browser.");
+          return;
+        }
+
+        try {
+          const scopes = ['username'];
+          const auth = await window.Pi.authenticate(scopes, function (payment) {
+            console.log("Incomplete payment found:", payment);
+          });
+          alert("Logged in as: " + auth.user.username);
+        } catch (err) {
+          console.error("Login failed:", err);
+          alert("Login failed. Please try again.");
+        }
+      });
     });
   </script>
 </body>
