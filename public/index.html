@@ -30,7 +30,7 @@
           alert("Logged in as: " + auth.user.username);
         } catch (err) {
           console.error("Login failed:", err);
-          alert("Login failed. Please try again.");
+          alert("Login failed: " + (err.message || "Unknown error"));
         }
       });
     });
