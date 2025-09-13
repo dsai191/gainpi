@@ -2,25 +2,26 @@
 <html>
 <head>
   <title>GainPi</title>
-  <!-- ✅ Load Pi SDK -->
   <script src="https://sdk.minepi.com/pi-sdk.js"></script>
 </head>
 <body>
   <h1>Welcome to GainPi</h1>
+  <p id="status">Checking Pi SDK...</p>
   <button id="signin">Login with Pi</button>
 
   <script>
     document.addEventListener("DOMContentLoaded", function () {
       const signInButton = document.getElementById("signin");
+      const status = document.getElementById("status");
+
+      if (!window.Pi) {
+        status.textContent = "❌ Pi SDK not available. Open this in the Pi Browser.";
+        return;
+      }
+
+      status.textContent = "✅ Pi SDK detected. Ready to authenticate.";
 
       signInButton.addEventListener("click", async () => {
-        console.log("Login button clicked");
-
-        if (!window.Pi) {
-          alert("Pi SDK not available. Please open this in the Pi Browser.");
-          return;
-        }
-
         try {
           const scopes = ['username'];
           const auth = await window.Pi.authenticate(scopes, function (payment) {
