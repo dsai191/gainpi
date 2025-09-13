@@ -57,31 +57,31 @@
       status.textContent = "✅ Pi SDK initialized. Ready to authenticate.";
 
       signInButton.addEventListener("click", async () => {
-  alert("Button clicked");
+        alert("Button clicked");
 
-  if (!window.Pi) {
-    alert("Pi SDK not available");
-    return;
-  }
+        if (!window.Pi) {
+          alert("Pi SDK not available");
+          return;
+        }
 
-  alert("Calling Pi.authenticate...");
+        alert("Calling Pi.authenticate...");
 
-  // ⏳ Add a timeout to detect if login hangs
-  setTimeout(() => {
-    alert("Still waiting for Pi login... If nothing happens, check your Pi session or App URL.");
-  }, 5000);
+        // ⏳ Timeout to detect if login hangs
+        setTimeout(() => {
+          alert("Still waiting for Pi login... If nothing happens, check your Pi session or App URL.");
+        }, 5000);
 
-  try {
-    const scopes = ['username'];
-    const auth = await window.Pi.authenticate(scopes, function (payment) {
-      console.log("Incomplete payment found:", payment);
-    });
-    alert("Logged in as: " + auth.user.username);
-  } catch (err) {
-    console.error("Login failed:", err);
-    alert("Login failed: " + (err.message || "Unknown error"));
-  }
-});
+        try {
+          const scopes = ['username'];
+          const auth = await window.Pi.authenticate(scopes, function (payment) {
+            console.log("Incomplete payment found:", payment);
+          });
+          alert("Logged in as: " + auth.user.username);
+        } catch (err) {
+          console.error("Login failed:", err);
+          alert("Login failed: " + (err.message || "Unknown error"));
+        }
+      });
     });
   </script>
 </body>
