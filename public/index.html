@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>GainPi</title>
+</head>
+<body>
+  <h1>Welcome to GainPi</h1>
+  <button onclick="loginWithPi()">Login with Pi</button>
+
+  <script>
+    function loginWithPi() {
+      if (window.Pi) {
+        window.Pi.authenticate(['username'], function(auth) {
+          alert("Logged in as: " + auth.username);
+        });
+      } else {
+        alert("Pi SDK not available. Please open this in the Pi Browser.");
+      }
+    }
+  </script>
+</body>
+</html>
