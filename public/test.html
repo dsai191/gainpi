@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Pi SDK Test</title>
+  <script src="https://sdk.minepi.com/pi-sdk.js"></script>
+</head>
+<body>
+  <h2>Pi SDK Test Page</h2>
+  <button id="login">Login with Pi</button>
+
+  <script>
+    window.addEventListener("DOMContentLoaded", () => {
+      if (!window.Pi) {
+        alert("❌ Pi SDK not loaded. Use Pi Browser.");
+        return;
+      }
+
+      window.Pi.init({
+        version: "2.0",
+        sandbox: true // keep true for now
+      });
+
+      document.getElementById("login").addEventListener("click", async () => {
+        alert("Attempting login...");
+
+        try {
+          const auth = await window.Pi.authenticate(['username'], () => {});
+          alert("✅ Logged in as: " + auth.user.username);
+        } catch (err) {
+          alert("❌ Login failed: " + err.message);
+        }
+      });
+    });
+  </script>
+</body>
+</html>
